@@ -12,7 +12,8 @@ function getAnimalsOlderThan(animal, age) {
 function getEmployeeByName(employeeName) {
   if (!employeeName) return {};
   return data.employees.find(
-    (employee) => employeeName === employee.firstName || employeeName === employee.lastName,
+    (employee) =>
+      employeeName === employee.firstName || employeeName === employee.lastName,
   );
 }
 
@@ -24,7 +25,13 @@ function isManager(id) {
   return data.employees.some((employee) => employee.managers.includes(id));
 }
 
-function addEmployee(id, firstName, lastName, managers = [], responsibleFor = []) {
+function addEmployee(
+  id,
+  firstName,
+  lastName,
+  managers = [],
+  responsibleFor = [],
+) {
   return data.employees.push({
     id,
     firstName,
@@ -35,7 +42,12 @@ function addEmployee(id, firstName, lastName, managers = [], responsibleFor = []
 }
 
 function countAnimals(species) {
-  // seu código aqui
+  if (!species) {
+    return data.species.reduce((acc, actual) => {
+      acc[actual.name] = actual.residents.length;
+      return acc;
+    }, {});
+  }
 }
 
 function calculateEntry(entrants) {
