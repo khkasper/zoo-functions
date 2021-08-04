@@ -25,13 +25,7 @@ function isManager(id) {
   return data.employees.some((employee) => employee.managers.includes(id));
 }
 
-function addEmployee(
-  id,
-  firstName,
-  lastName,
-  managers = [],
-  responsibleFor = [],
-) {
+function addEmployee(id, firstName, lastName, managers = [], responsibleFor = []) {
   return data.employees.push({
     id,
     firstName,
@@ -48,6 +42,7 @@ function countAnimals(species) {
       return acc;
     }, {});
   }
+  return data.species.find((specie) => specie.name === species).residents.length;
 }
 
 function calculateEntry(entrants) {
