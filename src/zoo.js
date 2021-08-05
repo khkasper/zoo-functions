@@ -47,22 +47,30 @@ function countAnimals(species) {
 
 function calculateEntry(entrants) {
   if (!entrants || Object.entries(entrants).length === 0) return 0;
-  // Acessar as chaves dos entrantes e para cada uma delas, buscar o seu respectivo preço no 'data', retornar num array cada valor e somá-los.
+  // Acessar as chaves dos entrantes, e para cada uma delas, buscar o seu respectivo preço no 'data', retornando num array os valores para somá-los.
   return Object.keys(entrants)
     .map((key) => {
       const price = data.prices[key];
       const qtyEntrants = entrants[key];
       return price * qtyEntrants;
     })
-    .reduce((prev, next) => prev + next, 0);
+    .reduce((acc, next) => acc + next, 0);
 }
 
 function getAnimalMap(options) {
-  // seu código aqui
+  //
 }
 
 function getSchedule(dayName) {
-  // seu código aqui
+  const bsnsHours = data.hours;
+  return Object.keys(bsnsHours).reduce((acc, next) => {
+    if (next === 'Monday') {
+      acc[next] = 'CLOSED';
+      return acc;
+    }
+    acc[next] = `Open from ${bsnsHours[next].open}am until ${bsnsHours[next].close - 12}pm`;
+    return acc;
+  }, {});
 }
 
 function getOldestFromFirstSpecies(id) {
