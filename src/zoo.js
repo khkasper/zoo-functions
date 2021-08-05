@@ -63,7 +63,7 @@ function getAnimalMap(options) {
 
 function getSchedule(dayName) {
   const bsnsHours = data.hours;
-  return Object.keys(bsnsHours).reduce((acc, next) => {
+  const schedule = Object.keys(bsnsHours).reduce((acc, next) => {
     if (next === 'Monday') {
       acc[next] = 'CLOSED';
       return acc;
@@ -71,6 +71,7 @@ function getSchedule(dayName) {
     acc[next] = `Open from ${bsnsHours[next].open}am until ${bsnsHours[next].close - 12}pm`;
     return acc;
   }, {});
+  return dayName ? { [dayName]: schedule[dayName] } : schedule;
 }
 
 function getOldestFromFirstSpecies(id) {
