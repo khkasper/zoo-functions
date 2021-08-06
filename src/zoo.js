@@ -91,15 +91,21 @@ function increasePrices(percentage) {
 
 function getEmployeeCoverage(idOrName) {
   const oneEmployee = {};
+  const allEmployees = {};
   data.employees.forEach(({ id, firstName, lastName, responsibleFor }) => {
+    const findSpecie = responsibleFor
+      .map((specieId) => data.species
+        .find((specie) => specie.id === specieId).name);
+    console.log(findSpecie);
     if (idOrName === id || idOrName === firstName || idOrName === lastName) {
-      oneEmployee[`${firstName} ${lastName}`] = responsibleFor
-        .map((specieId) => data.species
-          .find((specie) => specie.id === specieId).name);
+      oneEmployee[`${firstName} ${lastName}`] = findSpecie;
+    } else {
+      allEmployees[`${firstName} ${lastName}`] = findSpecie;
     }
   });
-  return oneEmployee;
+  return !idOrName ? allEmployees : oneEmployee;
 }
+console.log(getEmployeeCoverage('Stephanie'));
 
 module.exports = {
   calculateEntry,
