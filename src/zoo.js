@@ -55,7 +55,12 @@ function calculateEntry(entrants) {
 }
 
 function getAnimalMap(options) {
-  //
+  const animalsLocation = { NE: [], SE: [], NW: [], SW: [] };
+  if (!options || !options.includeName) {
+    data.species.forEach((specie) => animalsLocation[specie.location].push(specie.name));
+    return animalsLocation;
+  }
+  return animalsLocation;
 }
 
 function getSchedule(dayName) {
