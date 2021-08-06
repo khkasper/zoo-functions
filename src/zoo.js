@@ -96,7 +96,6 @@ function getEmployeeCoverage(idOrName) {
     const findSpecie = responsibleFor
       .map((specieId) => data.species
         .find((specie) => specie.id === specieId).name);
-    console.log(findSpecie);
     if (idOrName === id || idOrName === firstName || idOrName === lastName) {
       oneEmployee[`${firstName} ${lastName}`] = findSpecie;
     } else {
@@ -105,7 +104,6 @@ function getEmployeeCoverage(idOrName) {
   });
   return !idOrName ? allEmployees : oneEmployee;
 }
-console.log(getEmployeeCoverage('Stephanie'));
 
 module.exports = {
   calculateEntry,
