@@ -11,10 +11,8 @@ function getAnimalsOlderThan(animal, age) {
 
 function getEmployeeByName(employeeName) {
   if (!employeeName) return {};
-  return data.employees.find(
-    (employee) =>
-      employeeName === employee.firstName || employeeName === employee.lastName,
-  );
+  return data.employees
+    .find((employee) => employeeName === employee.firstName || employeeName === employee.lastName);
 }
 
 function createEmployee(personalInfo, associatedWith) {
@@ -47,7 +45,6 @@ function countAnimals(species) {
 
 function calculateEntry(entrants) {
   if (!entrants || Object.entries(entrants).length === 0) return 0;
-  // Acessar as chaves dos entrantes, e para cada uma delas, buscar o seu respectivo preço no 'data', retornando num array os valores para somá-los.
   return Object.keys(entrants)
     .map((key) => {
       const price = data.prices[key];
@@ -93,7 +90,15 @@ function increasePrices(percentage) {
 }
 
 function getEmployeeCoverage(idOrName) {
-  // seu código aqui
+  const oneEmployee = {};
+  data.employees.forEach(({ id, firstName, lastName, responsibleFor }) => {
+    if (idOrName === id || idOrName === firstName || idOrName === lastName) {
+      oneEmployee[`${firstName} ${lastName}`] = responsibleFor
+        .map((specieId) => data.species
+          .find((specie) => specie.id === specieId).name);
+    }
+  });
+  return oneEmployee;
 }
 
 module.exports = {
