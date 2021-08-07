@@ -1,3 +1,5 @@
+// Agradecimentos aos colegas de turma que participaram dos grupos de discussão sobre o projeto, em especial ao Marcello, Pedro e Lucas, tanto com seus próprios projetos, quanto pelas dicas durante as conversas.
+
 const data = require('./data');
 
 function getSpeciesByIds(...ids) {
@@ -54,12 +56,24 @@ function calculateEntry(entrants) {
     .reduce((acc, next) => acc + next, 0);
 }
 
-function getAnimalMap(options) {
+function getAnimalMap(options = {}) {
   const animalsLocation = { NE: [], SE: [], NW: [], SW: [] };
-  if (!options || !options.includeName) {
+  if (!options.includeNames) {
     data.species.forEach((specie) => animalsLocation[specie.location].push(specie.name));
     return animalsLocation;
   }
+  data.species.forEach((specie) => {
+    let animalsNames = specie.residents.map((animal) => animal.name);
+    if (options.sex) {
+      animalsNames = [];
+      const animalsNamesAdd = specie.residents.filter((animal) => animal.sex === options.sex);
+      animalsNamesAdd.forEach((animal) => animalsNames.push(animal.name));
+    }
+    if (options.sorted) {
+      animalsNames.sort();
+    }
+    animalsLocation[specie.location].push({ [specie.name]: animalsNames });
+  });
   return animalsLocation;
 }
 
@@ -98,13 +112,13 @@ function getEmployeeCoverage(idOrName) {
   const oneEmployee = {};
   const allEmployees = {};
   data.employees.forEach(({ id, firstName, lastName, responsibleFor }) => {
-    const findSpecie = responsibleFor
+    const speciesNames = responsibleFor
       .map((specieId) => data.species
         .find((specie) => specie.id === specieId).name);
     if (idOrName === id || idOrName === firstName || idOrName === lastName) {
-      oneEmployee[`${firstName} ${lastName}`] = findSpecie;
+      oneEmployee[`${firstName} ${lastName}`] = speciesNames;
     } else {
-      allEmployees[`${firstName} ${lastName}`] = findSpecie;
+      allEmployees[`${firstName} ${lastName}`] = speciesNames;
     }
   });
   return !idOrName ? allEmployees : oneEmployee;
